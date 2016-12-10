@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +25,7 @@ public class CarrinhoCompras {
 	@OneToOne
 	private Usuario usuario;
 	
-	@OneToMany
+	@OneToMany(cascade = {CascadeType.ALL})
 	private List<ItemComercializado> itemsCarrinho;
 	
 	private BigDecimal precoTotal;
@@ -66,7 +68,7 @@ public class CarrinhoCompras {
 	private ItemComercializado buscaItemPeloId(String idItem) {
 		for (Iterator<ItemComercializado> iterator = itemsCarrinho.iterator(); iterator.hasNext();) {
 			ItemComercializado itemComercializado = (ItemComercializado) iterator.next();
-			if(itemComercializado.getId().equals(idItem)){
+			if(itemComercializado.getIdMemoria().equals(idItem)){
 				return itemComercializado;
 			}
 		}

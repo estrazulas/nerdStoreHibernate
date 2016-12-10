@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+
+import br.edu.ifsc.nerdstore.util.Util;
 
 @Entity
 public class ItemComercializado {
@@ -14,6 +17,9 @@ public class ItemComercializado {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
+	
+	@Transient
+	private String idMemoria;
 	
 	@ManyToOne
 	private Produto  produto;
@@ -25,6 +31,7 @@ public class ItemComercializado {
 	}
 	
 	public ItemComercializado(Produto produto, Integer quantidade){
+		this.setIdMemoria(Util.geraUID());
 		this.produto = produto;
 		this.quantidade = quantidade;
 		this.totalDoItem = produto.getPreco().multiply(BigDecimal.valueOf(quantidade));
@@ -51,6 +58,14 @@ public class ItemComercializado {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getIdMemoria() {
+		return idMemoria;
+	}
+
+	public void setIdMemoria(String idMemoria) {
+		this.idMemoria = idMemoria;
 	}
 	
 }

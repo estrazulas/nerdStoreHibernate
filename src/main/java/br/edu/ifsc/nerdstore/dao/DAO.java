@@ -32,10 +32,12 @@ public class DAO<T> implements Serializable  {
 		// fecha a entity manager
 	}
 
-	public void atualiza(T t) {
+	public Object atualiza(T t) {
+		Object obj = null;
 		em.getTransaction().begin();
-		em.merge(t);
+		obj = em.merge(t);
 		em.getTransaction().commit();
+		return obj;
 	}
 
 	public T buscaPorId(Long id) {

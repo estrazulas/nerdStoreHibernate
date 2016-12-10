@@ -38,12 +38,13 @@ public class LoginBean implements Serializable {
 
 	public String efetuaLogin() {
 		System.out.println("Fazendo login do usuário " + this.usuario.getEmail());
-		Usuario usuarioBanco = dao.getUsuario(this.usuario.getEmail());
+		Usuario usuarioBanco = dao.buscaPorEmailESenha(this.usuario.getEmail(), this.usuario.getSenha());
 
 		FacesContext fc = JsfUtil.getFacesContext();
 		if (usuarioBanco!=null) {
 			fc.getExternalContext().getSessionMap().put("usuarioLogado", usuarioBanco);
-			fc.getExternalContext().getSessionMap().put("carrinho", CarrinhoDAO.getInstance().adicionaCarrinhoSeNaoTem(usuarioBanco.getId()) );
+			CarrinhoCompras carrinhoBanco = CarrinhoDAO.getInstance().adicionaCarrinhoSeNaoTem(usuarioBanco);
+			fc.getExternalContext().getSessionMap().put("carrinho",  carrinhoBanco);
 			return "loja?faces-redirect=true";
 		}
 		fc.getExternalContext().getFlash().setKeepMessages(true);
@@ -55,6 +56,7 @@ public class LoginBean implements Serializable {
 	public String deslogar() {
 		FacesContext fc = JsfUtil.getFacesContext();
 		CarrinhoCompras carrinho= (CarrinhoCompras) fc.getExternalContext().getSessionMap().get("carrinho");
+		
 		CarrinhoDAO.getInstance().atualiza(carrinho);
 		fc.getExternalContext().getSessionMap().remove("usuarioLogado");
 		fc.getExternalContext().getSessionMap().remove("carrinho");

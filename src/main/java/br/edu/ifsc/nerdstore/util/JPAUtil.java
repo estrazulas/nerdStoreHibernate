@@ -17,9 +17,8 @@ public class JPAUtil implements Serializable {
 			.createEntityManagerFactory("nerdStore");
 	
 	public static synchronized EntityManager getEntityManager() {
-		
 		if (instancia == null) {
-			emf.createEntityManager();
+			instancia = emf.createEntityManager();
 		}
 		return instancia;
 	}

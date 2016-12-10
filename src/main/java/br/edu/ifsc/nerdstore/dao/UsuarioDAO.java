@@ -75,7 +75,7 @@ public class UsuarioDAO extends DAO<Usuario> {
 		try {
 			usuarioBanco= query.getSingleResult();
 		} catch (NoResultException ex) {
-			ex.printStackTrace();
+			//ex.printStackTrace();
 		}
 		return usuarioBanco;
 	}

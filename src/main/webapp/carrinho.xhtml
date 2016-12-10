@@ -45,7 +45,7 @@
 						
 						<p:column>
 							<p:commandButton update="produtosCarrinho"	process="formCarrinho" value="#{mensagens['itemcarrinho.remover']}" type="submit" action="#{carrinhoBean.removerItem()}" icon="fa fa-fw fa-remove" immediate="true" >
-								<f:param name="idItem" value="#{item.id}" />
+								<f:param name="idItem" value="#{item.idMemoria}" />
 							</p:commandButton>
 						</p:column>
 						<f:facet name="footer">
