@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">
+		<p:outputPanel>
+			<p:outputLabel value="#{mensagens['carrinho.titulo']}" />
+		</p:outputPanel>
+	</ui:define>
+	<ui:define name="conteudo">
+		<p:messages globalOnly="true" />
+		<h:form id="formCarrinho">
+			<p:panel id="carrinho" 
+				style="margin-bottom:20px;width:55%;margin:auto">
+				<p:panelGrid columns="2" cellpadding="10" >
+
+					<p:dataTable widgetVar="produtosCarrinho"
+						value="#{carrinho.itemsCarrinho}" var="item" id="produtosCarrinho">
+
+						<f:facet name="header">#{mensagens['carrinho.titulo']}</f:facet>
+
+						<p:column>
+							<p:graphicImage url="#{item.getProduto().urlImagem}" width="100" height="100"/><br/>
+							<h:outputText value="#{item.getProduto().nome}" />
+						</p:column>
+						<p:column headerText="#{mensagens['itemcarrinho.precounitario']}">
+							<h:outputText value="#{item.getProduto().preco}" >
+								<f:convertNumber type="currency" pattern="R$ #0.00"
+									currencySymbol="R$" locale="pt_BR" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="#{mensagens['itemcarrinho.quantidade']}">
+						<h:outputText value="#{item.quantidade}" /> UN 
+						</p:column>
+						<p:column headerText="#{mensagens['itemcarrinho.total']}">
+					    <h:outputText style="color:blue;font-weight:bold" value="#{item.totalDoItem}">
+								<f:convertNumber type="currency" pattern="R$ #0.00"
+									currencySymbol="R$" locale="pt_BR" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column>
+							<p:commandButton update="produtosCarrinho"	process="formCarrinho" value="#{mensagens['itemcarrinho.remover']}" type="submit" action="#{carrinhoBean.removerItem()}" icon="fa fa-fw fa-remove" immediate="true" >
+								<f:param name="idItem" value="#{item.id}" />
+							</p:commandButton>
+						</p:column>
+						<f:facet name="footer">
+						 <h:outputLabel value="#{mensagens['carrinho.total']}" /> -
+						 <h:outputText style="font-weight:bold" value="#{carrinho.precoTotal}">
+        					<f:convertNumber type="currency" pattern="R$ #0.00"
+									currencySymbol="R$" locale="pt_BR" />
+							</h:outputText>
+    					</f:facet>
+					</p:dataTable>
+					
+				</p:panelGrid>
+				<p:calendar  id="inline" value="#{currentDate}" mode="inline" />
+				<p:panel style="margin-bottom:20px;width:180px;margin:auto;text-align:center">
+				 	<h:panelGrid columns="2" cellpadding="10" >
+						<p:commandButton  value="#{mensagens['loja.voltar']}" action="loja?faces-redirect=true" icon="fa fa-fw fa-home"/>
+					</h:panelGrid>
+				</p:panel>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

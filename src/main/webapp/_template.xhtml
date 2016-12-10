@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head />
+<h:body>
+	<div id="cabecalho">
+		<p:panel
+			styleClass="ui-panel-titlebar ui-widget-header ui-helper-clearfix ui-corner-all">
+			<p:panelGrid columns="1">
+				<p:graphicImage
+					url="https://cuponomia-a.akamaihd.net/img/stores/original/nerdstore.jpg" />
+				<h:form style="width:60%;margin:auto" id="tema">
+					<p:themeSwitcher id="basic" style="width:165px"
+						value="#{temaBean.tema}">
+						<f:selectItem itemLabel="Choose Theme" itemValue="" />
+						<f:selectItems value="#{temaBean.temas}" var="tema"
+							itemLabel="#{tema}" itemValue="#{tema}" />
+						<f:ajax />
+					</p:themeSwitcher>
+				</h:form>
+
+			</p:panelGrid>
+		</p:panel>
+		<p:growl id="messages" showDetail="true" autoUpdate="true" />
+
+		<h:form rendered="#{usuarioLogado != null}" id="menubar">
+			<p:growl id="messages" />
+
+			<p:menubar>
+				<p:submenu label="#{mensagens['sistema.paginas']}"
+					icon="fa fa-fw fa-list">
+					<p:menuitem value="#{mensagens['sistema.loja']}"
+						action="loja?faces-redirect=true" icon="fa fa-fw fa-home" />
+					<p:menuitem value="#{mensagens['compra.vercarrinho']}"
+						action="carrinho?faces-redirect=true"
+						icon="fa fa-fw fa-cart-arrow-down" />
+					<p:menuitem value="#{mensagens['usuario.verusuarios']}"
+						action="usuarios?faces-redirect=true" icon="fa fa-fw fa-user" />
+					<p:menuitem value="#{mensagens['sistema.vendas']}"
+						action="vendas?faces-redirect=true" icon="fa fa-fw fa-money" />
+					<p:separator />
+					<p:menuitem value="#{mensagens['loja.sair']}"
+						action="#{loginBean.deslogar}" icon="fa fa-fw fa-sign-out" />
+				</p:submenu>
+				<p:menuitem value="#{mensagens['sistema.loja']}"
+					action="loja?faces-redirect=true" icon="fa fa-fw fa-home" />
+				<p:menuitem style="position: absolute; right: 6px;"
+					action="carrinho?faces-redirect=true"
+					icon="fa fa-fw fa-cart-arrow-down">
+					<h:outputLabel value="#{mensagens['carrinho.total']}" /> -
+						 <h:outputText style="font-weight:bold"
+						value="#{carrinho.precoTotal}">
+						<f:convertNumber type="currency" pattern="R$ #0.00"
+							currencySymbol="R$" locale="pt_BR" />
+					</h:outputText>
+				</p:menuitem>
+				<p:menuitem value="#{mensagens['loja.sair']}"
+					action="#{loginBean.deslogar}" icon="fa fa-fw fa-sign-out" />
+			</p:menubar>
+		</h:form>
+		<h1>
+			<ui:insert name="titulo"></ui:insert>
+		</h1>
+	</div>
+	<div id="conteudo">
+		<ui:insert name="conteudo">
+		</ui:insert>
+	</div>
+	<div id="rodape">
+		<p:layout style="min-width:400px;min-height:400px;">
+			<p:layoutUnit position="west" size="800">
+				<p:galleria value="#{lojaBean.images}" var="image" panelWidth="790"
+					panelHeight="300">
+					<p:graphicImage url="#{image}" alt="Image Description for #{image}"
+						title="#{image}" />
+				</p:galleria>
+			</p:layoutUnit>
+
+			<p:layoutUnit position="center">
+				<p:clock pattern="dd/MM/yyyy HH:mm:ss" mode="server" />
+				<p:carousel value="#{lojaBean.produtos}" var="produto"
+					numVisible="1" easing="easeOutBounce" style="width:100%"
+					cricular="true">
+					<h:panelGrid columns="2" style="width:100%"
+						columnClasses="label,value">
+						<f:facet name="header">
+							<p:graphicImage width="200" height="200"
+								url="#{produto.urlImagem}" />
+						</f:facet>
+						
+						<h:outputText value="Id:" />
+						<h:outputText value="#{produto.id}" />
+
+						<h:outputText value="#{mensagens['produto.nome']}" />
+						<h:outputText value="#{produto.nome}" />
+
+						<h:outputText value="#{mensagens['produto.preco']}:" />
+						<h:outputText value="#{produto.preco}">
+							<f:convertNumber type="currency" pattern="R$ #0.00"
+								currencySymbol="R$" locale="pt_BR" />
+						</h:outputText>
+						
+
+					</h:panelGrid>
+				</p:carousel>
+			</p:layoutUnit>
+		</p:layout>
+
+	</div>
+</h:body>
+</html>
