@@ -67,5 +67,10 @@ public class ItemComercializado {
 	public void setIdMemoria(String idMemoria) {
 		this.idMemoria = idMemoria;
 	}
+
+	public void incrementaQuantidade(Integer quantidadeInc) {
+		this.quantidade +=quantidadeInc;
+		this.totalDoItem = produto.getPreco().multiply(BigDecimal.valueOf(quantidade));
+	}
 	
 }

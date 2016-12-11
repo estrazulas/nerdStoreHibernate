@@ -48,12 +48,25 @@ public class CarrinhoCompras {
 	}
 	
 	public void adicionaProduto(Produto produto, Integer quantidade){
-		ItemComercializado novoItem = new ItemComercializado(produto,quantidade);
-		itemsCarrinho.add(novoItem);
-		precoTotal = precoTotal.add(novoItem.getTotalDoItem());
+		ItemComercializado produtoExistente = esteProdutoEstaNoCarrinho(produto);
+		if(produtoExistente==null){
+			ItemComercializado novoItem = new ItemComercializado(produto,quantidade);
+			itemsCarrinho.add(novoItem);
+			precoTotal = precoTotal.add(novoItem.getTotalDoItem());
+		}else{
+			produtoExistente.incrementaQuantidade(quantidade);
+		}
 	}
 	
 	
+	private ItemComercializado esteProdutoEstaNoCarrinho(Produto produto) {
+		for (ItemComercializado itemComercializado : itemsCarrinho) {
+			if(itemComercializado.getProduto().getId().equals(produto.getId())){
+				return itemComercializado;
+			}
+		}
+		return null;
+	}
 	public void removeProduto(String idItem){
 		ItemComercializado itemDoCarrinho = buscaItemPeloId(idItem);
 		if(itemDoCarrinho!=null){
