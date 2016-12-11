@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -58,6 +57,13 @@ public class CarrinhoCompras {
 		}
 	}
 	
+	public void atualizaTotalCarrinho(){
+		precoTotal = BigDecimal.ZERO;
+		for (Iterator<ItemComercializado> iterator = itemsCarrinho.iterator(); iterator.hasNext();) {
+			ItemComercializado itemComercializado = (ItemComercializado) iterator.next();
+			precoTotal = precoTotal.add(itemComercializado.getTotalDoItem());
+		}
+	}
 	
 	private ItemComercializado esteProdutoEstaNoCarrinho(Produto produto) {
 		for (ItemComercializado itemComercializado : itemsCarrinho) {

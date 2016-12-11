@@ -34,7 +34,7 @@ public class ItemComercializado {
 		this.setIdMemoria(Util.geraUID());
 		this.produto = produto;
 		this.quantidade = quantidade;
-		this.totalDoItem = produto.getPreco().multiply(BigDecimal.valueOf(quantidade));
+		atualizaTotalItem();
 	}
 	public Integer getQuantidade() {
 		return quantidade;
@@ -44,6 +44,7 @@ public class ItemComercializado {
 	}
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
+		atualizaTotalItem();
 	}
 	public BigDecimal getTotalDoItem() {
 		return totalDoItem;
@@ -70,6 +71,10 @@ public class ItemComercializado {
 
 	public void incrementaQuantidade(Integer quantidadeInc) {
 		this.quantidade +=quantidadeInc;
+		atualizaTotalItem();
+	}
+
+	public void atualizaTotalItem() {
 		this.totalDoItem = produto.getPreco().multiply(BigDecimal.valueOf(quantidade));
 	}
 	
